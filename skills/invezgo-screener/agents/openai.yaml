@@ -1,0 +1,4 @@
+interface:
+  display_name: "Invezgo Screener"
+  short_description: "IDX formula screener and ownership report tools"
+  default_prompt: "Use $invezgo-screener to build a formula or run ownership screens."

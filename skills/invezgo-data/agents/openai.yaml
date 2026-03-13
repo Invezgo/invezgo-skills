@@ -1,0 +1,4 @@
+interface:
+  display_name: "Invezgo Data"
+  short_description: "Public IDX market data and broker flow tools"
+  default_prompt: "Use $invezgo-data to fetch public IDX data or broker activity."

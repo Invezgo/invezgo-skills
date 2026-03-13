@@ -1,0 +1,4 @@
+interface:
+  display_name: "Invezgo Personal Trading"
+  short_description: "Portfolio, journal, trade, and watchlist tools"
+  default_prompt: "Use $invezgo-personal-trading to review watchlists, portfolio, or trade history."
