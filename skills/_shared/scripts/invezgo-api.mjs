@@ -17,6 +17,7 @@ Usage:
 Auth:
   Prefer INVEZGO_API_KEY in the environment.
   Optional override: --api-key YOUR_KEY
+  Get or manage API key: https://invezgo.com/setting/api
 
 Examples:
   node path/to/invezgo-api.mjs information code=BBCA
@@ -253,7 +254,9 @@ async function run() {
   }
 
   if (!flags.apiKey) {
-    throw new Error("Missing API key. Set INVEZGO_API_KEY or pass --api-key.");
+    throw new Error(
+      "Missing API key. Set INVEZGO_API_KEY or pass --api-key. Get one at https://invezgo.com/setting/api"
+    );
   }
 
   const headers = {

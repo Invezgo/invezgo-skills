@@ -212,6 +212,522 @@ export const toolDefinitions = {
       to: toDate,
     },
   },
+  "watchlist-group-list": {
+    groups: ["personal"],
+    description: "List watchlist groups for the authenticated user.",
+    method: "GET",
+    path: () => "watchlists/group",
+    args: {},
+  },
+  "watchlist-group-create": {
+    groups: ["personal"],
+    description: "Create a watchlist group.",
+    method: "POST",
+    path: () => "watchlists/group",
+    args: {
+      name: {
+        type: "string",
+        required: true,
+        description: "Watchlist group name.",
+      },
+    },
+    body: ({ name }) => ({ name }),
+  },
+  "watchlist-group-update": {
+    groups: ["personal"],
+    description: "Update a watchlist group by id.",
+    method: "PUT",
+    path: ({ id }) => `watchlists/group/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Watchlist group id.",
+      },
+      name: {
+        type: "string",
+        required: true,
+        description: "Watchlist group name.",
+      },
+    },
+    body: ({ name }) => ({ name }),
+  },
+  "watchlist-group-delete": {
+    groups: ["personal"],
+    description: "Delete a watchlist group by id.",
+    method: "DELETE",
+    path: ({ id }) => `watchlists/group/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Watchlist group id.",
+      },
+    },
+  },
+  "journal-file-extract": {
+    groups: ["personal"],
+    description: "Extract journal information from uploaded file metadata endpoint.",
+    method: "POST",
+    path: () => "journals/file",
+    args: {},
+  },
+  "journal-update-note": {
+    groups: ["personal"],
+    description: "Update note on one journal entry by id.",
+    method: "PATCH",
+    path: ({ id }) => `journals/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Journal id.",
+      },
+      note: {
+        type: "string",
+        description: "Journal note.",
+      },
+    },
+    body: ({ note }) => ({ note }),
+  },
+  "trade-update-note": {
+    groups: ["personal"],
+    description: "Update note on one trade by id.",
+    method: "PATCH",
+    path: ({ id }) => `trades/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Trade id.",
+      },
+      note: {
+        type: "string",
+        description: "Trade note.",
+      },
+    },
+    body: ({ note }) => ({ note }),
+  },
+  "alert-list": {
+    groups: ["personal"],
+    description: "List all personal alerts.",
+    method: "GET",
+    path: () => "alerts",
+    args: {},
+  },
+  "alert-create": {
+    groups: ["personal"],
+    description: "Create a new alert.",
+    method: "POST",
+    path: () => "alerts",
+    args: {
+      name: {
+        type: "string",
+        required: true,
+        description: "Alert name.",
+      },
+      description: {
+        type: "string",
+        description: "Optional alert description.",
+      },
+      category: {
+        type: "string[]",
+        required: true,
+        description: "Comma-separated categories.",
+      },
+      every: {
+        type: "string",
+        required: true,
+        allowed: [
+          "FOURTY_FIVE_SECONDS",
+          "FIVE_MINUTES",
+          "TEN_MINUTES",
+          "THIRTY_MINUTES",
+          "ONE_HOUR",
+          "END_SESSION",
+          "END_OF_DAY",
+        ],
+        description: "Alert schedule.",
+      },
+      send: {
+        type: "string",
+        required: true,
+        allowed: ["IN_OUT", "IN", "OUT"],
+        description: "Signal direction.",
+      },
+      scope: {
+        type: "string[]",
+        description: "Optional comma-separated scope values.",
+      },
+      formula: {
+        type: "string",
+        required: true,
+        description: "Alert formula.",
+      },
+    },
+    body: ({ name, description, category, every, send, scope, formula }) => ({
+      name,
+      description,
+      category,
+      every,
+      send,
+      scope,
+      formula,
+    }),
+  },
+  "alert-test": {
+    groups: ["personal"],
+    description: "Test an alert formula and category.",
+    method: "POST",
+    path: () => "alerts/test",
+    args: {
+      formula: {
+        type: "string",
+        required: true,
+        description: "Alert formula.",
+      },
+      category: {
+        type: "string[]",
+        required: true,
+        description: "Comma-separated categories.",
+      },
+    },
+    body: ({ formula, category }) => ({ formula, category }),
+  },
+  "alert-update": {
+    groups: ["personal"],
+    description: "Update one alert by id.",
+    method: "PUT",
+    path: ({ id }) => `alerts/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Alert id.",
+      },
+      name: {
+        type: "string",
+        required: true,
+        description: "Alert name.",
+      },
+      description: {
+        type: "string",
+        description: "Optional alert description.",
+      },
+      category: {
+        type: "string[]",
+        required: true,
+        description: "Comma-separated categories.",
+      },
+      every: {
+        type: "string",
+        required: true,
+        allowed: [
+          "FOURTY_FIVE_SECONDS",
+          "FIVE_MINUTES",
+          "TEN_MINUTES",
+          "THIRTY_MINUTES",
+          "ONE_HOUR",
+          "END_SESSION",
+          "END_OF_DAY",
+        ],
+        description: "Alert schedule.",
+      },
+      send: {
+        type: "string",
+        required: true,
+        allowed: ["IN_OUT", "IN", "OUT"],
+        description: "Signal direction.",
+      },
+      scope: {
+        type: "string[]",
+        description: "Optional comma-separated scope values.",
+      },
+      formula: {
+        type: "string",
+        required: true,
+        description: "Alert formula.",
+      },
+    },
+    body: ({ name, description, category, every, send, scope, formula }) => ({
+      name,
+      description,
+      category,
+      every,
+      send,
+      scope,
+      formula,
+    }),
+  },
+  "alert-delete": {
+    groups: ["personal"],
+    description: "Delete one alert by id.",
+    method: "DELETE",
+    path: ({ id }) => `alerts/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Alert id.",
+      },
+    },
+  },
+  search: {
+    groups: ["invezgo-data"],
+    description: "General search endpoint for stocks, users, and content.",
+    method: "GET",
+    path: () => "search",
+    query: [{ key: "query", arg: "query" }],
+    args: {
+      query: {
+        type: "string",
+        required: true,
+        description: "Search keyword.",
+      },
+    },
+  },
+  "search-user": {
+    groups: ["invezgo-data"],
+    description: "Search users by keyword.",
+    method: "GET",
+    path: () => "search/user",
+    query: [
+      { key: "query", arg: "query" },
+      { key: "cursor", arg: "cursor" },
+    ],
+    args: {
+      query: {
+        type: "string",
+        required: true,
+        description: "Search keyword.",
+      },
+      cursor: {
+        type: "string",
+        default: "1",
+        description: "Pagination cursor.",
+      },
+    },
+  },
+  "profile-detail": {
+    groups: ["invezgo-data"],
+    description: "Public profile details by username.",
+    method: "GET",
+    path: ({ username }) => `profile/detail/${encodeURIComponent(username)}`,
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+    },
+  },
+  "profile-posts": {
+    groups: ["invezgo-data"],
+    description: "Public posts by username.",
+    method: "GET",
+    path: ({ username }) => `profile/posts/${encodeURIComponent(username)}`,
+    query: [
+      { key: "page", arg: "page" },
+      { key: "limit", arg: "limit" },
+    ],
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+      page: {
+        type: "string",
+        default: "1",
+        description: "Page number.",
+      },
+      limit: {
+        type: "string",
+        default: "10",
+        description: "Rows per page.",
+      },
+    },
+  },
+  "profile-posts-category": {
+    groups: ["invezgo-data"],
+    description: "Public posts by username and category.",
+    method: "GET",
+    path: ({ username, category }) =>
+      `profile/posts/${encodeURIComponent(username)}/${encodeURIComponent(category)}`,
+    query: [
+      { key: "page", arg: "page" },
+      { key: "limit", arg: "limit" },
+    ],
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+      category: {
+        type: "string",
+        required: true,
+        description: "Post category.",
+      },
+      page: {
+        type: "string",
+        default: "1",
+        description: "Page number.",
+      },
+      limit: {
+        type: "string",
+        default: "10",
+        description: "Rows per page.",
+      },
+    },
+  },
+  "profile-watchlist": {
+    groups: ["invezgo-data"],
+    description: "Public watchlist by username.",
+    method: "GET",
+    path: ({ username }) => `profile/watchlist/${encodeURIComponent(username)}`,
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+    },
+  },
+  "profile-follow": {
+    groups: ["invezgo-data"],
+    description: "Public followers data by username.",
+    method: "GET",
+    path: ({ username }) => `profile/follow/${encodeURIComponent(username)}`,
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+    },
+  },
+  "profile-following": {
+    groups: ["invezgo-data"],
+    description: "Public following data by username.",
+    method: "GET",
+    path: ({ username }) => `profile/following/${encodeURIComponent(username)}`,
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+    },
+  },
+  "profile-membership": {
+    groups: ["invezgo-data"],
+    description: "Public membership data by username.",
+    method: "GET",
+    path: ({ username }) => `profile/membership/${encodeURIComponent(username)}`,
+    args: {
+      username: {
+        type: "string",
+        required: true,
+        description: "Username.",
+      },
+    },
+  },
+  "posts-list": {
+    groups: ["invezgo-data"],
+    description: "List public posts feed.",
+    method: "GET",
+    path: () => "posts",
+    args: {},
+  },
+  "posts-category": {
+    groups: ["invezgo-data"],
+    description: "List public posts by category.",
+    method: "GET",
+    path: ({ category }) => `posts/category/${encodeURIComponent(category)}`,
+    args: {
+      category: {
+        type: "string",
+        required: true,
+        description: "Post category.",
+      },
+    },
+  },
+  "posts-space": {
+    groups: ["invezgo-data"],
+    description: "List stock-space posts by code.",
+    method: "GET",
+    path: ({ code }) => `posts/space/${encodeURIComponent(code)}`,
+    args: { code: stockCode },
+  },
+  "posts-space-category": {
+    groups: ["invezgo-data"],
+    description: "List stock-space posts by code and category.",
+    method: "GET",
+    path: ({ code, category }) =>
+      `posts/space/category/${encodeURIComponent(code)}/${encodeURIComponent(category)}`,
+    args: {
+      code: stockCode,
+      category: {
+        type: "string",
+        required: true,
+        description: "Post category.",
+      },
+    },
+  },
+  "posts-detail": {
+    groups: ["invezgo-data"],
+    description: "Get one post detail by id.",
+    method: "GET",
+    path: ({ id }) => `posts/detail/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Post id.",
+      },
+    },
+  },
+  "posts-comment": {
+    groups: ["invezgo-data"],
+    description: "Get post comments by post id.",
+    method: "GET",
+    path: ({ id }) => `posts/comment/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Post id.",
+      },
+    },
+  },
+  "posts-like": {
+    groups: ["invezgo-data"],
+    description: "Get post likes feed.",
+    method: "GET",
+    path: () => "posts/like",
+    args: {},
+  },
+  "posts-favorite": {
+    groups: ["invezgo-data"],
+    description: "Get post favorites feed.",
+    method: "GET",
+    path: () => "posts/favorite",
+    args: {},
+  },
+  "posts-vote": {
+    groups: ["invezgo-data"],
+    description: "Get voters for one post vote id.",
+    method: "GET",
+    path: ({ id }) => `posts/vote/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Vote id.",
+      },
+    },
+  },
   information: {
     groups: ["invezgo-data"],
     description: "Fetch company information for one stock code.",
@@ -256,6 +772,35 @@ export const toolDefinitions = {
     path: () => "users/top/accumulation",
     query: [{ key: "date", arg: "date" }],
     args: { date: singleDate },
+  },
+  "top-ritel": {
+    groups: ["invezgo-data"],
+    description: "Top retail accumulation and distribution for one day.",
+    method: "GET",
+    path: () => "analysis/top/ritel",
+    query: [
+      { key: "date", arg: "date" },
+      { key: "filter_column", arg: "filter_column" },
+      { key: "filter_operator", arg: "filter_operator" },
+      { key: "filter_value", arg: "filter_value" },
+    ],
+    args: {
+      date: singleDate,
+      filter_column: {
+        type: "string",
+        allowed: ["change", "value", "volume", "ratio"],
+        description: "Optional filter column.",
+      },
+      filter_operator: {
+        type: "string",
+        allowed: ["<", ">", "=", ">=", "<=", "!="],
+        description: "Optional comparison operator.",
+      },
+      filter_value: {
+        type: "number",
+        description: "Optional filter value.",
+      },
+    },
   },
   chart: {
     groups: ["invezgo-data"],
@@ -319,8 +864,21 @@ export const toolDefinitions = {
     groups: ["invezgo-data"],
     description: "Detailed one-percent shareholder composition for one stock code.",
     method: "GET",
-    path: ({ code }) => `analysis/shareholder-detail-one/${encodeURIComponent(code)}`,
-    args: { code: stockCode },
+    path: () => "analysis/shareholder-detail-one",
+    query: [
+      { key: "code", arg: "code" },
+      { key: "name", arg: "name" },
+    ],
+    args: {
+      code: {
+        ...stockCode,
+        required: false,
+      },
+      name: {
+        type: "string",
+        description: "Optional shareholder name filter.",
+      },
+    },
   },
   "shareholder-ksei": {
     groups: ["invezgo-data"],
@@ -336,6 +894,68 @@ export const toolDefinitions = {
         description: "Month range.",
       },
     },
+  },
+  "shareholder-relation": {
+    groups: ["invezgo-data"],
+    description: "Shareholder network relation data by optional code or name.",
+    method: "GET",
+    path: () => "analysis/shareholder/relation",
+    query: [
+      { key: "code", arg: "code" },
+      { key: "name", arg: "name" },
+      { key: "depth", arg: "depth" },
+      { key: "max_nodes", arg: "max_nodes" },
+      { key: "neighbors", arg: "neighbors" },
+      { key: "min_percentage", arg: "min_percentage" },
+    ],
+    args: {
+      code: {
+        type: "string",
+        description: "Optional stock code filter.",
+      },
+      name: {
+        type: "string",
+        description: "Optional shareholder name filter.",
+      },
+      depth: {
+        type: "integer",
+        description: "Optional graph depth.",
+      },
+      max_nodes: {
+        type: "integer",
+        description: "Optional maximum node count.",
+      },
+      neighbors: {
+        type: "integer",
+        description: "Optional max neighbors per node.",
+      },
+      min_percentage: {
+        type: "number",
+        description: "Optional minimum ownership percentage.",
+      },
+    },
+  },
+  "shareholder-classification": {
+    groups: ["invezgo-data"],
+    description: "Shareholder classification trend for one stock code.",
+    method: "GET",
+    path: ({ code }) => `analysis/shareholder/classification/${encodeURIComponent(code)}`,
+    query: [{ key: "range", arg: "range" }],
+    args: {
+      code: stockCode,
+      range: {
+        type: "integer",
+        default: 6,
+        description: "Month range.",
+      },
+    },
+  },
+  "shareholder-classify-table": {
+    groups: ["invezgo-data"],
+    description: "Latest shareholder classification table for one stock code.",
+    method: "GET",
+    path: ({ code }) => `analysis/shareholder/classify-table/${encodeURIComponent(code)}`,
+    args: { code: stockCode },
   },
   "summary-stock": {
     groups: ["invezgo-data"],
@@ -728,6 +1348,17 @@ export const toolDefinitions = {
       market: marketType,
     },
   },
+  "intraday-data": {
+    groups: ["invezgo-data"],
+    description: "Compact intraday stock data for one code.",
+    method: "GET",
+    path: ({ code }) => `analysis/intraday-data/${encodeURIComponent(code)}`,
+    query: [{ key: "market", arg: "market" }],
+    args: {
+      code: stockCode,
+      market: marketType,
+    },
+  },
   "order-book": {
     groups: ["invezgo-data"],
     description: "Order book for one stock code.",
@@ -798,6 +1429,107 @@ export const toolDefinitions = {
     },
     body: ({ formula }) => ({ formula }),
   },
+  "screener-list": {
+    groups: ["screener"],
+    description: "List saved screeners for the authenticated user.",
+    method: "GET",
+    path: () => "screener",
+    args: {},
+  },
+  "screener-save": {
+    groups: ["screener"],
+    description: "Save a screener formula.",
+    method: "POST",
+    path: () => "screener",
+    args: {
+      name: {
+        type: "string",
+        required: true,
+        description: "Screener name.",
+      },
+      description: {
+        type: "string",
+        description: "Optional screener description.",
+      },
+      scope: {
+        type: "string[]",
+        description: "Optional comma-separated scope values.",
+      },
+      formula: {
+        type: "string",
+        required: true,
+        description: "Invezgo screener formula.",
+      },
+      category: {
+        type: "string[]",
+        required: true,
+        description: "Comma-separated categories.",
+      },
+    },
+    body: ({ name, description, scope, formula, category }) => ({
+      name,
+      description,
+      scope,
+      formula,
+      category,
+    }),
+  },
+  "screener-update": {
+    groups: ["screener"],
+    description: "Update one saved screener by id.",
+    method: "PUT",
+    path: ({ id }) => `screener/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Screener id.",
+      },
+      name: {
+        type: "string",
+        required: true,
+        description: "Screener name.",
+      },
+      description: {
+        type: "string",
+        description: "Optional screener description.",
+      },
+      scope: {
+        type: "string[]",
+        description: "Optional comma-separated scope values.",
+      },
+      formula: {
+        type: "string",
+        required: true,
+        description: "Invezgo screener formula.",
+      },
+      category: {
+        type: "string[]",
+        required: true,
+        description: "Comma-separated categories.",
+      },
+    },
+    body: ({ name, description, scope, formula, category }) => ({
+      name,
+      description,
+      scope,
+      formula,
+      category,
+    }),
+  },
+  "screener-delete": {
+    groups: ["screener"],
+    description: "Delete one saved screener by id.",
+    method: "DELETE",
+    path: ({ id }) => `screener/${encodeURIComponent(id)}`,
+    args: {
+      id: {
+        type: "string",
+        required: true,
+        description: "Screener id.",
+      },
+    },
+  },
   "list-index": {
     groups: ["invezgo-data"],
     description: "List all supported IDX indexes.",
@@ -818,6 +1550,32 @@ export const toolDefinitions = {
       code: indexCode,
       from: fromDate,
       to: toDate,
+    },
+  },
+  "chart-multi-time": {
+    groups: ["invezgo-data"],
+    description: "Multi-timeframe chart for one stock or index code.",
+    method: "GET",
+    path: ({ code }) => `analysis/chart/multi-time/${encodeURIComponent(code)}`,
+    query: [
+      { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
+      { key: "timeframe", arg: "timeframe" },
+    ],
+    args: {
+      code: {
+        type: "string",
+        default: "BBCA",
+        description: "Stock or index code, for example BBCA or COMPOSITE.",
+      },
+      from: fromDate,
+      to: toDate,
+      timeframe: {
+        type: "string",
+        default: "D",
+        allowed: ["1", "5", "15", "30", "60", "D", "W", "M"],
+        description: "Candle timeframe.",
+      },
     },
   },
   "sector-stalker": {

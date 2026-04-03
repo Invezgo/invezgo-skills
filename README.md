@@ -54,11 +54,15 @@ skills/
 - An active `INVEZGO_API_KEY`
 - An AI agent or local shell that can run Node commands
 
+Get your API key from: https://invezgo.com/setting/api
+
 This repo uses built-in Node.js APIs, so there is no required `npm install` for the provided scripts.
 
 ## Quick start
 
 ### 1. Set your API key
+
+If you do not have an API key yet, create it at: https://invezgo.com/setting/api
 
 PowerShell:
 

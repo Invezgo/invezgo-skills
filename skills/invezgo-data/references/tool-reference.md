@@ -15,6 +15,8 @@ List the available tools:
 - `information code=BBCA`
 - `list-stock`
 - `list-broker`
+- `search query=bbca`
+- `search-user query=investor cursor=1`
 - `search-stock code=bank`
 
 ## Daily Market Breadth
@@ -22,12 +24,15 @@ List the available tools:
 - `top-change date=2026-03-13`
 - `top-foreign date=2026-03-13`
 - `top-accumulation date=2026-03-13`
+- `top-ritel date=2026-03-13 filter_column=value filter_operator=> filter_value=0`
 
 ## Price and Technicals
 
 - `chart code=BBCA from=2026-01-01 to=2026-03-13`
+- `chart-multi-time code=BBCA from=2026-03-01 to=2026-03-13 timeframe=60`
 - `chart-indicator code=TLKM indicator=foreign from=2026-02-01 to=2026-03-13`
 - `intraday code=BBRI market=RG`
+- `intraday-data code=BBRI market=RG`
 - `order-book code=ASII market=RG`
 - `price-diary code=BBNI`
 - `price-seasonal code=BBCA range=36`
@@ -41,6 +46,9 @@ List the available tools:
 - `shareholder-one-detail code=BBCA`
 - `shareholder-number code=BBCA`
 - `shareholder-ksei code=BBCA range=12`
+- `shareholder-relation code=BBCA depth=3 max_nodes=120 neighbors=25 min_percentage=1`
+- `shareholder-classification code=BBCA range=6`
+- `shareholder-classify-table code=BBCA`
 
 ## Fundamentals and News
 
@@ -49,6 +57,25 @@ List the available tools:
 - `news code=BBCA`
 - `disclosure code=BBCA`
 - `calendar code=BBCA type=RUPS_SCHEDULE limit=10 page=1`
+
+## Community and Profile
+
+- `profile-detail username=invezgo`
+- `profile-posts username=invezgo page=1 limit=10`
+- `profile-posts-category username=invezgo category=NEWS page=1 limit=10`
+- `profile-watchlist username=invezgo`
+- `profile-follow username=invezgo`
+- `profile-following username=invezgo`
+- `profile-membership username=invezgo`
+- `posts-list`
+- `posts-category category=NEWS`
+- `posts-space code=BBCA`
+- `posts-space-category code=BBCA category=REPORT`
+- `posts-detail id=POST_ID`
+- `posts-comment id=POST_ID`
+- `posts-like`
+- `posts-favorite`
+- `posts-vote id=VOTE_ID`
 
 ## Index and Sector
 
@@ -77,6 +104,7 @@ List the available tools:
 
 - Dates use `YYYY-MM-DD`.
 - `indicator`: `bdm`, `ritel`, `ratio`, `value`, `volume`, `foreign`, `accumulation`, `freq`.
+- `timeframe`: `1`, `5`, `15`, `30`, `60`, `D`, `W`, `M`.
 - `statement`: `BS`, `IS`, `CF`, `EQ`.
 - `type` for financials and keystats: `Q`, `FY`, `Q1`, `Q2`, `Q3`, `Q4`.
 - `market`: `RG`, `NG`, `TN`.
@@ -84,4 +112,6 @@ List the available tools:
 - `buyer` and `seller`: `ALL`, `F`, `D`.
 - `scope`: `vol`, `val`, `freq`.
 - `flow type`: `value`, `volume`.
+- `filter_column` for `top-ritel`: `change`, `value`, `volume`, `ratio`.
+- `filter_operator` for `top-ritel`: `<`, `>`, `=`, `>=`, `<=`, `!=`.
 - `calendar type`: `IPO`, `PUBLIC_EXPOSE`, `REVERSE`, `RIGHT`, `RUPS_RESULT`, `RUPS_SCHEDULE`, `SPLIT`, `WARRANT`, `BONUS`, `CONVERTION`.
