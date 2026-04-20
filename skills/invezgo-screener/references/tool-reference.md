@@ -25,14 +25,15 @@ List the available tools:
 
 ## Ownership Reports
 
-- `insider from=2026-03-01 page=1 limit=20 code=BBCA`
-- `above-five-percent from=2026-03-01 page=1 limit=20 code=BBCA`
-- `above-one-percent from=2026-03-01 page=1 limit=20 broker=ZP`
+- `insider from=2026-03-01 to=2026-03-13 page=1 limit=20 code=BBCA`
+- `above-five-percent from=2026-03-01 to=2026-03-13 page=1 limit=20 code=BBCA`
+- `above-one-percent from=2026-03-01 to=2026-03-13 page=1 limit=20 name=PT`
 
 ## Parameter Notes
 
-- `from` is required for the ownership report tools.
+- `from` and `to` are required for the ownership report tools.
 - `page` defaults to `1`.
 - `limit` defaults to `10`.
-- `code`, `name`, and `broker` are optional filters.
+- `code`, `name`, and `broker` are optional filters for `insider` and `above-five-percent`.
+- `code` and `name` are optional filters for `above-one-percent`.
 - `category` and `scope` on screener management tools use comma-separated values.

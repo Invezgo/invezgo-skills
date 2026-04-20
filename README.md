@@ -107,7 +107,7 @@ node skills/invezgo-data/scripts/run.mjs information code=BBCA
 Search stocks:
 
 ```powershell
-node skills/invezgo-data/scripts/run.mjs search-stock code=bank
+node skills/invezgo-data/scripts/run.mjs search-stock query=bank cursor=1
 ```
 
 Run a stock screener formula:

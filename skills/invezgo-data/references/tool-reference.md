@@ -17,7 +17,7 @@ List the available tools:
 - `list-broker`
 - `search query=bbca`
 - `search-user query=investor cursor=1`
-- `search-stock code=bank`
+- `search-stock query=bank cursor=1`
 
 ## Daily Market Breadth
 
@@ -36,14 +36,17 @@ List the available tools:
 - `order-book code=ASII market=RG`
 - `price-diary code=BBNI`
 - `price-seasonal code=BBCA range=36`
-- `price-table code=GOTO`
-- `time-table code=GOTO`
+- `price-table code=GOTO date=2026-03-13`
+- `time-table code=GOTO date=2026-03-13 range=60`
 
 ## Ownership
 
 - `shareholder code=BBCA`
+- `shareholder-high`
 - `shareholder-detail code=BBCA`
+- `shareholder-detail name='ADARO STRATEGIC INVESTMENTS'`
 - `shareholder-one-detail code=BBCA`
+- `shareholder-one-detail name='ADARO STRATEGIC INVESTMENTS'`
 - `shareholder-number code=BBCA`
 - `shareholder-ksei code=BBCA range=12`
 - `shareholder-relation code=BBCA depth=3 max_nodes=120 neighbors=25 min_percentage=1`
@@ -94,24 +97,24 @@ List the available tools:
 
 ## Intraday Broker Flow
 
-- `momentum code=BBCA date=2026-03-13 range=5 scope=vol`
+- `momentum code=BBCA date=2026-03-13 range=5 scope=volume`
 - `intraday-inventory code=BBRI date=2026-03-13 range=5 type=value total=6 buyer=ALL seller=ALL market=RG`
 - `sankey code=ASII date=2026-03-13 type=value buyer=ALL seller=ALL market=RG`
-- `broker-stalker broker=YP stock=BBCA`
-- `broker-stalker-list code=BBCA`
+- `broker-stalker broker=YP stock=BBCA from=2026-03-01 to=2026-03-13 investor=all market=RG`
+- `broker-stalker-list code=YP from=2026-03-01 to=2026-03-13 investor=all market=RG`
 
 ## Parameter Notes
 
 - Dates use `YYYY-MM-DD`.
 - `indicator`: `bdm`, `ritel`, `ratio`, `value`, `volume`, `foreign`, `accumulation`, `freq`.
 - `timeframe`: `1`, `5`, `15`, `30`, `60`, `D`, `W`, `M`.
-- `statement`: `BS`, `IS`, `CF`, `EQ`.
+- `statement`: `BS`, `IS`, `CF`.
 - `type` for financials and keystats: `Q`, `FY`, `Q1`, `Q2`, `Q3`, `Q4`.
 - `market`: `RG`, `NG`, `TN`.
 - `investor`: `all`, `f`, `d`.
 - `buyer` and `seller`: `ALL`, `F`, `D`.
-- `scope`: `vol`, `val`, `freq`.
+- `scope` for `momentum`: `value`, `volume`.
 - `flow type`: `value`, `volume`.
 - `filter_column` for `top-ritel`: `change`, `value`, `volume`, `ratio`.
 - `filter_operator` for `top-ritel`: `<`, `>`, `=`, `>=`, `<=`, `!=`.
-- `calendar type`: `IPO`, `PUBLIC_EXPOSE`, `REVERSE`, `RIGHT`, `RUPS_RESULT`, `RUPS_SCHEDULE`, `SPLIT`, `WARRANT`, `BONUS`, `CONVERTION`.
+- `calendar type`: `IPO`, `PUBLIC_EXPOSE`, `REVERSE`, `RIGHT`, `RUPS_RESULT`, `RUPS_SCHEDULE`, `SPLIT`, `WARRANT`, `BONUS`, `CONVERTION`, `DIVIDEND`.

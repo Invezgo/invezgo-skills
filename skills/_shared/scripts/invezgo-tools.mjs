@@ -76,8 +76,8 @@ const buyerSellerType = {
 const statementType = {
   type: "string",
   default: "BS",
-  allowed: ["BS", "IS", "CF", "EQ"],
-  description: "Financial statement: balance sheet, income statement, cash flow, or equity.",
+  allowed: ["BS", "IS", "CF"],
+  description: "Financial statement: balance sheet, income statement, or cash flow.",
 };
 
 const reportType = {
@@ -753,7 +753,7 @@ export const toolDefinitions = {
     groups: ["invezgo-data"],
     description: "Top price changes for one trading day.",
     method: "GET",
-    path: () => "users/top/change",
+    path: () => "analysis/top/change",
     query: [{ key: "date", arg: "date" }],
     args: { date: singleDate },
   },
@@ -761,7 +761,7 @@ export const toolDefinitions = {
     groups: ["invezgo-data"],
     description: "Top foreign accumulation and distribution for one day.",
     method: "GET",
-    path: () => "users/top/foreign",
+    path: () => "analysis/top/foreign",
     query: [{ key: "date", arg: "date" }],
     args: { date: singleDate },
   },
@@ -769,7 +769,7 @@ export const toolDefinitions = {
     groups: ["invezgo-data"],
     description: "Top accumulation and distribution for one day.",
     method: "GET",
-    path: () => "users/top/accumulation",
+    path: () => "analysis/top/accumulation",
     query: [{ key: "date", arg: "date" }],
     args: { date: singleDate },
   },
@@ -853,16 +853,41 @@ export const toolDefinitions = {
     path: ({ code }) => `analysis/shareholder/${encodeURIComponent(code)}`,
     args: { code: stockCode },
   },
+  "shareholder-high": {
+    groups: ["invezgo-data", "screener"],
+    description: "High concentration stock ownership for all issuers.",
+    method: "GET",
+    path: () => "analysis/shareholder/high",
+    args: {},
+  },
   "shareholder-detail": {
     groups: ["invezgo-data"],
-    description: "Detailed shareholder composition for one stock code.",
+    description: "Detailed five-percent shareholder ownership by stock code or holder name.",
     method: "GET",
-    path: ({ code }) => `analysis/shareholder-detail/${encodeURIComponent(code)}`,
-    args: { code: stockCode },
+    path: () => "analysis/shareholder-detail",
+    query: [
+      { key: "code", arg: "code" },
+      { key: "name", arg: "name" },
+    ],
+    args: {
+      code: {
+        type: "string",
+        description: "Optional stock code filter.",
+      },
+      name: {
+        type: "string",
+        description: "Optional shareholder name filter.",
+      },
+    },
+    validate: ({ code, name }) => {
+      if (!code && !name) {
+        throw new Error('Missing required argument: provide at least one of "code" or "name".');
+      }
+    },
   },
   "shareholder-one-detail": {
     groups: ["invezgo-data"],
-    description: "Detailed one-percent shareholder composition for one stock code.",
+    description: "Detailed one-percent shareholder ownership by stock code or holder name.",
     method: "GET",
     path: () => "analysis/shareholder-detail-one",
     query: [
@@ -871,13 +896,18 @@ export const toolDefinitions = {
     ],
     args: {
       code: {
-        ...stockCode,
-        required: false,
+        type: "string",
+        description: "Optional stock code filter.",
       },
       name: {
         type: "string",
         description: "Optional shareholder name filter.",
       },
+    },
+    validate: ({ code, name }) => {
+      if (!code && !name) {
+        throw new Error('Missing required argument: provide at least one of "code" or "name".');
+      }
     },
   },
   "shareholder-ksei": {
@@ -890,7 +920,7 @@ export const toolDefinitions = {
       code: stockCode,
       range: {
         type: "integer",
-        default: 6,
+        required: true,
         description: "Month range.",
       },
     },
@@ -1083,8 +1113,8 @@ export const toolDefinitions = {
       },
       scope: {
         type: "string",
-        default: "vol",
-        allowed: ["vol", "val", "freq"],
+        default: "volume",
+        allowed: ["value", "volume"],
         description: "Aggregation scope.",
       },
     },
@@ -1159,11 +1189,12 @@ export const toolDefinitions = {
   },
   insider: {
     groups: ["screener"],
-    description: "Insider transaction data filtered by date and optional name or code.",
+    description: "Insider transaction data filtered by date range and optional name or code.",
     method: "GET",
     path: () => "analysis/shareholder-insider",
     query: [
       { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
       { key: "page", arg: "page" },
       { key: "limit", arg: "limit" },
       { key: "name", arg: "name" },
@@ -1171,6 +1202,7 @@ export const toolDefinitions = {
     ],
     args: {
       ...pagerFrom,
+      to: toDate,
       code: {
         type: "string",
         description: "Optional stock code filter.",
@@ -1184,11 +1216,12 @@ export const toolDefinitions = {
   },
   "above-five-percent": {
     groups: ["screener"],
-    description: "Holder positions above five percent filtered by date and optional code, name, or broker.",
+    description: "Holder positions above five percent filtered by date range and optional code, name, or broker.",
     method: "GET",
     path: () => "analysis/shareholder-above",
     query: [
       { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
       { key: "page", arg: "page" },
       { key: "limit", arg: "limit" },
       { key: "broker", arg: "broker" },
@@ -1197,6 +1230,7 @@ export const toolDefinitions = {
     ],
     args: {
       ...pagerFrom,
+      to: toDate,
       code: {
         type: "string",
         description: "Optional stock code filter.",
@@ -1214,19 +1248,20 @@ export const toolDefinitions = {
   },
   "above-one-percent": {
     groups: ["screener"],
-    description: "Holder positions above one percent filtered by date and optional code, name, or broker.",
+    description: "Holder positions above one percent filtered by date range and optional code or name.",
     method: "GET",
     path: () => "analysis/shareholder-one",
     query: [
       { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
       { key: "page", arg: "page" },
       { key: "limit", arg: "limit" },
-      { key: "broker", arg: "broker" },
       { key: "name", arg: "name" },
       { key: "code", arg: "code" },
     ],
     args: {
       ...pagerFrom,
+      to: toDate,
       code: {
         type: "string",
         description: "Optional stock code filter.",
@@ -1234,10 +1269,6 @@ export const toolDefinitions = {
       name: {
         type: "string",
         description: "Optional holder name filter.",
-      },
-      broker: {
-        type: "string",
-        description: "Optional broker code filter.",
       },
     },
     unwrap: "data",
@@ -1266,14 +1297,26 @@ export const toolDefinitions = {
   },
   "search-stock": {
     groups: ["invezgo-data", "screener"],
-    description: "Search stocks by keyword, code, industry, or category.",
+    description: "Search stocks by keyword.",
     method: "GET",
     path: () => "search/stock",
     query: [
-      { key: "query", arg: "code" },
-      { key: "cursor", value: 1 },
+      { key: "query", arg: "query" },
+      { key: "cursor", arg: "cursor" },
     ],
-    args: { code: stockCode },
+    args: {
+      query: {
+        type: "string",
+        required: true,
+        description: "Search keyword.",
+      },
+      cursor: {
+        type: "string",
+        required: true,
+        default: "1",
+        description: "Pagination cursor.",
+      },
+    },
   },
   news: {
     groups: ["invezgo-data"],
@@ -1399,6 +1442,7 @@ export const toolDefinitions = {
           "WARRANT",
           "BONUS",
           "CONVERTION",
+          "DIVIDEND",
         ],
         description: "Optional corporate action type.",
       },
@@ -1640,6 +1684,12 @@ export const toolDefinitions = {
     method: "GET",
     path: ({ broker, stock }) =>
       `analysis/stalker/broker/${encodeURIComponent(broker)}/${encodeURIComponent(stock)}`,
+    query: [
+      { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
+      { key: "investor", arg: "investor" },
+      { key: "market", arg: "market" },
+    ],
     args: {
       broker: brokerCode,
       stock: {
@@ -1647,28 +1697,60 @@ export const toolDefinitions = {
         required: true,
         description: "IDX stock code.",
       },
+      from: fromDate,
+      to: toDate,
+      investor: investorType,
+      market: marketType,
     },
   },
   "broker-stalker-list": {
     groups: ["invezgo-data"],
-    description: "Active brokers on one stock.",
+    description: "Stocks traded by one or more brokers in a date range.",
     method: "GET",
     path: ({ code }) => `analysis/stalker/list/${encodeURIComponent(code)}`,
-    args: { code: stockCode },
+    query: [
+      { key: "from", arg: "from" },
+      { key: "to", arg: "to" },
+      { key: "investor", arg: "investor" },
+      { key: "market", arg: "market" },
+    ],
+    args: {
+      code: brokerCode,
+      from: fromDate,
+      to: toDate,
+      investor: investorType,
+      market: marketType,
+    },
   },
   "price-table": {
     groups: ["invezgo-data"],
     description: "Price distribution table for one stock.",
     method: "GET",
     path: ({ code }) => `analysis/price-table/${encodeURIComponent(code)}`,
-    args: { code: stockCode },
+    query: [{ key: "date", arg: "date" }],
+    args: {
+      code: stockCode,
+      date: singleDate,
+    },
   },
   "time-table": {
     groups: ["invezgo-data"],
     description: "Time distribution table for one stock.",
     method: "GET",
     path: ({ code }) => `analysis/time-table/${encodeURIComponent(code)}`,
-    args: { code: stockCode },
+    query: [
+      { key: "date", arg: "date" },
+      { key: "range", arg: "range" },
+    ],
+    args: {
+      code: stockCode,
+      date: singleDate,
+      range: {
+        type: "integer",
+        required: true,
+        description: "Interval range in minutes.",
+      },
+    },
   },
 };
 

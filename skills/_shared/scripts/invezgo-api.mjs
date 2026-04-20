@@ -159,6 +159,10 @@ function normalizeArgs(toolName, rawParams) {
     }
   }
 
+  if (typeof definition.validate === "function") {
+    definition.validate(normalized);
+  }
+
   return normalized;
 }
 
