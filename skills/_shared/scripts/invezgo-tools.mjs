@@ -864,9 +864,8 @@ export const toolDefinitions = {
     groups: ["invezgo-data"],
     description: "Detailed five-percent shareholder ownership by stock code or holder name.",
     method: "GET",
-    path: () => "analysis/shareholder-detail",
+    path: ({ code }) => `analysis/shareholder-detail${code ? '/' + encodeURIComponent(code) : ''}`,
     query: [
-      { key: "code", arg: "code" },
       { key: "name", arg: "name" },
     ],
     args: {
@@ -1411,6 +1410,42 @@ export const toolDefinitions = {
     args: {
       code: stockCode,
       market: marketType,
+    },
+  },
+  queue: {
+    groups: ["invezgo-data"],
+    description: "Get order queue (order tracking) for a stock at a specific price, side, page, and limit.",
+    method: "GET",
+    path: ({ code }) => `analysis/queue/${encodeURIComponent(code)}`,
+    query: [
+      { key: "price", arg: "price" },
+      { key: "side", arg: "side" },
+      { key: "page", arg: "page" },
+      { key: "limit", arg: "limit" },
+    ],
+    args: {
+      code: stockCode,
+      price: {
+        type: "integer",
+        required: true,
+        description: "Stock price level to track.",
+      },
+      side: {
+        type: "string",
+        required: true,
+        allowed: ["BUY", "SELL"],
+        description: "Transaction side: BUY or SELL.",
+      },
+      page: {
+        type: "integer",
+        default: 0,
+        description: "Queue data page.",
+      },
+      limit: {
+        type: "integer",
+        default: 50,
+        description: "Limit on the number of queue entries to display.",
+      },
     },
   },
   calendar: {

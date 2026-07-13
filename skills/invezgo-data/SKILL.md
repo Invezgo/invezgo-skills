@@ -17,7 +17,7 @@ Treat relative paths in this skill as relative to the skill folder.
 3. Pick the narrowest tool that matches the request.
    Use `search`, `search-user`, and `search-stock` when discovery starts from keywords or usernames.
    Use `information`, `financial`, and `keystat` for company and fundamental questions.
-   Use `chart`, `chart-multi-time`, `chart-indicator`, `intraday`, `intraday-data`, `order-book`, `price-diary`, `price-seasonal`, `price-table`, and `time-table` for price action.
+   Use `chart`, `chart-multi-time`, `chart-indicator`, `intraday`, `intraday-data`, `order-book`, `queue`, `price-diary`, `price-seasonal`, `price-table`, and `time-table` for price action.
    Use `news`, `disclosure`, and `calendar` for catalysts and corporate events.
    Use `profile*` and `posts*` tools for public profile and community-content analysis.
    Use `list-index`, `index-chart`, `intraday-index`, `sector-stalker`, `sector-rotation`, `top-change`, `top-foreign`, `top-accumulation`, and `top-ritel` for market-wide analysis.

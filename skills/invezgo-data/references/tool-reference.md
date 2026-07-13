@@ -34,6 +34,7 @@ List the available tools:
 - `intraday code=BBRI market=RG`
 - `intraday-data code=BBRI market=RG`
 - `order-book code=ASII market=RG`
+- `queue code=BBCA price=935 side=BUY`
 - `price-diary code=BBNI`
 - `price-seasonal code=BBCA range=36`
 - `price-table code=GOTO date=2026-03-13`
